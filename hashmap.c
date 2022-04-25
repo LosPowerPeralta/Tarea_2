@@ -31,9 +31,34 @@ long hash( char * key, long capacity) {
     return hash%capacity;
 }
 
+//AQUI HACER FUNCION A MAYUSCULA
+
+char* AMayuscula( char* str){
+    size_t index = 0;
+    size_t largo = strlen( str );
+    while ( index < largo)
+    {
+        str[index] = toupper(str[index]);
+        index += 1;
+    }
+
+    return str;
+}
+
 int is_equal(void* key1, void* key2){
     if(key1==NULL || key2==NULL) return 0;
-    if(strcmp((char*)key1,(char*)key2) == 0) return 1;
+
+    char* aux1 = (char*) malloc( 51*sizeof(char) );
+    char* aux2 = (char*) malloc( 51*sizeof(char) );
+
+    strcpy(aux1, (char*)key1);
+    strcpy(aux2, (char*)key2);
+
+    if( strcmp( AMayuscula(aux1) , AMayuscula(aux2) ) == 0 ){
+        free(aux1);
+        free(aux2);
+        return 1; 
+    }
     return 0;
 }
 
@@ -140,11 +165,14 @@ Pair * firstMap(HashMap * map) {
 
 Pair * nextMap(HashMap * map) {
     map->current += 1;
-    while( (map->buckets[map->current] == NULL || map->buckets[map->current]->key == NULL) && map->current < map->capacity - 1 ){
-        map->current += 1;
-    }
-    if(map->buckets[map->current]!= NULL && map->buckets[map->current]->key != NULL){
+    
+    while(map->current < map->capacity){
+
+        if( map->buckets[map->current] && map->buckets[map->current]->key  ){
         return map->buckets[map->current];
+        }  
+
+        map->current += 1;
     }
     return NULL;
 }
