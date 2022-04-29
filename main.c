@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <conio.h>
+#include <conio.h> //En teoria se puede ya eliminar esta libreria
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,11 +13,18 @@ typedef struct{
     size_t cantProductos;
 }Carrito;  
 
+//Eliminar esta struct, para solo inicializar un HashMap* MapCarritos en el main
 typedef struct{
     HashMap* mapCarritos;
     size_t cantCarritos;
 } Carritos;
 
+/*  PROPUESTA DE STRUCT
+    typedef struct{
+        Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
+        size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
+    }ProductoCarrito;
+*/
 typedef struct{
     char nombre[51];
     size_t cantidad;
