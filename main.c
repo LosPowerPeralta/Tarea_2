@@ -183,7 +183,7 @@ void importar(Stock* almacen){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                getch();
+                system("pause");
                 return;
             } 
         }
@@ -210,7 +210,7 @@ void importar(Stock* almacen){
     }
     fclose(fp);
     printf("\n============ IMPORTADO CON EXITO ===========\n");
-    getch();
+    system("pause");
 }
 
 void exportar(HashMap* MapNombre ){
@@ -219,7 +219,7 @@ void exportar(HashMap* MapNombre ){
         printf("\n========== EXPORTANDO ARCHIVO CSV ==========\n");
         printf("\nNO HAY PRODUCTOS EN EL ALMACEN PARA EXPORTAR\n");
         printf("\n============= VOLVIENDO AL MENU ============\n");
-        getch();
+        system("pause");
         return;
     }
 
@@ -245,7 +245,7 @@ void exportar(HashMap* MapNombre ){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                getch();
+                system("pause");
                 return;
             } 
         }
@@ -272,7 +272,7 @@ void exportar(HashMap* MapNombre ){
 
     fclose(fp);
     printf("\n============ EXPORTADO CON EXITO ===========\n");
-    getch();
+    system("pause");
 
 }
 
@@ -357,7 +357,7 @@ void menuAgregarProducto( Stock* almacen ){
 
     }
     printf("\n================= VOLVIENDO AL MENU ==================\n");
-    getch();
+    system("pause");
     return;
 }
 
@@ -367,7 +367,7 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n========================= BUSCANDO PRODUCTOS POR TIPO ========================\n");
         printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-        getch();
+        system("pause");
         return;
     }
 
@@ -405,11 +405,12 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
     }
 
-    getch();
+    system("pause");
 }
 
 int main() { 
-
+    
+    system("color 7c");
     Stock *almacen = createStock();
     //Carritos* carritosDeCompras = createCarritos();
 
