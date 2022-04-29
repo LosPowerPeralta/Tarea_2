@@ -95,7 +95,7 @@ const char *get_csv_field (char * tmp, int k) {
 
 bool esNumero(char *caracter) {
     int cont;
-
+    if( !strcmp(caracter, "0") ) return false;
     for (cont = 0; cont < strlen(caracter); cont++) {
         if (isdigit(caracter[cont]) != true) {
             return false;
@@ -422,6 +422,7 @@ int main() {
     //Carritos* carritosDeCompras = createCarritos();
 
     int opcion = -1;
+    char aux[51];
     while(opcion != 12) {
         system("cls");
         printf("\n========== MENU DE COMPRAS ==========\n\n");
@@ -439,7 +440,13 @@ int main() {
         printf("12.- Salir\n");
 
         printf("\nINGRESE SU OPCION: ");
-        scanf("%i", &opcion);
+        scanf("%s", aux);
+        while(!esNumero(aux)){
+            printf("Debe ser un numero: ");
+            fflush(stdin);
+            scanf("%s", aux);
+        }
+        opcion = atoi(aux);
 
         switch(opcion)
         {
@@ -465,10 +472,10 @@ int main() {
                 mostrarProductos( almacen->nombre );
                 break;*/
             //case 8: 
-                //agregarProductoCarrito( almacen->nombre, carritosDeCompras );
+                //agregarProductoCarrito( almacen, carritosDeCompras );
               //  break;
             /*case 9: 
-                eliminarProductoCarrito( almacen->nombre, carritosDeCompras );
+                eliminarProductoCarrito( almacen, carritosDeCompras );
                 break;
             case 10:*/
                 //comprarCarrito( carritosDeCompras );
