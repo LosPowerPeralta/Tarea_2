@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include "hashmap2.c"
+#include "hashmap.c"
 #include "list.c"
 
 typedef struct{
@@ -96,6 +96,17 @@ bool esNumero(char *caracter) {
     }
 
     return true;
+}
+
+size_t convertirNum(char *string) {
+    size_t cont;
+    size_t num = 0;
+
+    for (cont = 0; cont < strlen(string); cont++) {
+        num = (num * 10) + (string[cont] - '0');
+    }
+    
+    return num;
 }
 
 void validarS_N(char* opcionS_N){
@@ -409,29 +420,12 @@ void buscarTipo(HashMap* MapTipo){
     getch();
 }
 
-void mostrarMarcas(HashMap *MapMarca) {
-    size_t cont;
-    int i = hash("champion dog", MapMarca->capacity);
-
-    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->marca);
-    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->nombre);
-    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->stock);
-    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->valor);
-    /*printf("%s\n", firstMap(MapMarca)->key);
-    for (cont = 1; cont < MapMarca->size; cont++){
-        printf("%s\n", nextMap(MapMarca)->key);
-    }*/
-    getch();
-}
-
 void buscarMarca(HashMap *MapMarca) {
     HashMap *productos;
     Pair *objeto;
     char accion[1];
     char marca[30];
     size_t cont;
-
-    mostrarMarcas(MapMarca);
 
     system("cls");
 
@@ -446,7 +440,7 @@ void buscarMarca(HashMap *MapMarca) {
     printf("\n========================= BUSCANDO PRODUCTOS POR MARCA ========================\n");
     printf("\nIngrese la marca de los productos: ");
     fflush(stdin);
-    scanf("%s", marca);
+    gets(marca);
     printf("\n");
 
     if (searchMap(MapMarca, marca) == NULL) {
@@ -462,19 +456,21 @@ void buscarMarca(HashMap *MapMarca) {
     system("cls");
     productos = searchMap(MapMarca, marca)->value;
     objeto = firstMap(productos);
-    printf("| Producto |    Marca    |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    printf("================================================== PRODUCTO(S) =======================================================\n");
+    printf("| Producto |      Marca     |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    printf("|==========|================|===================================================|=========|================|=========|\n");
     for (cont = 0; cont < productos->size; cont++) {
-        printf("|%6d", cont + 1);
-        printf("%16s", ((Producto *)objeto->value)->marca);
-        printf("%52s", ((Producto *)objeto->value)->nombre);
-        printf("%8d", ((Producto *)objeto->value)->stock);
-        printf("%17s", ((Producto *)objeto->value)->tipo);
-        printf("%13d |\n", ((Producto *)objeto->value)->valor);
-        printf("|=================================================================================================================|\n");
+        printf("|%6d    |", cont + 1);
+        printf("%14s  |", ((Producto *)objeto->value)->marca);
+        printf("%50s |", ((Producto *)objeto->value)->nombre);
+        printf("%6d   |", ((Producto *)objeto->value)->stock);
+        printf("%13s   |", ((Producto *)objeto->value)->tipo);
+        printf("%8d |\n", ((Producto *)objeto->value)->valor);
+        printf("|==========|================|===================================================|=========|================|=========|\n");
         objeto = nextMap(productos);
     }
 
-    printf("\n============================================= VOLVIENDO AL MENU ==================================================\n");
+    printf("=============================================== VOLVIENDO AL MENU ====================================================\n");
     getch();
 }
 
@@ -493,15 +489,11 @@ void buscarNombre(HashMap *MapNombre) {
         getch();
         return;
     }
-    producto = searchMap(MapNombre, nombre);
-    firstMap(MapNombre);
-    printf("%s\n", MapNombre->buckets[MapNombre->current]->key);
-    printf("%s\n", ((Producto *)producto->value)->nombre);
 
     printf("\n========================= BUSCANDO PRODUCTOS POR NOMBRE ========================\n");
     printf("\nIngrese el nombre del producto: ");
     fflush(stdin);
-    scanf("%s", nombre);
+    gets(nombre);
     printf("\n");
 
     if (searchMap(MapNombre, nombre) == NULL) {
@@ -514,24 +506,29 @@ void buscarNombre(HashMap *MapNombre) {
         return;
     }
 
+    system("cls");
     producto = searchMap(MapNombre, nombre);
-    printf("|    Marca    |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
-    printf("%6s", ((Producto *)producto->value)->marca);
-    printf("%45s", ((Producto *)producto->value)->nombre);
-    printf("%8d", ((Producto *)producto->value)->stock);
-    printf("%17s", ((Producto *)producto->value)->tipo);
-    printf("%13d |\n", ((Producto *)producto->value)->valor);
-    printf("|=================================================================================================================|\n");
+    printf("=========================================== PRODUCTO ======================================================\n");
+    printf("|      Marca     |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    printf("|================|===================================================|=========|================|=========|\n");
+    printf("|%14s  |", ((Producto *)producto->value)->marca);
+    printf("%49s  |", ((Producto *)producto->value)->nombre);
+    printf("%6d   |", ((Producto *)producto->value)->stock);
+    printf("%15s |", ((Producto *)producto->value)->tipo);
+    printf("%8d |\n", ((Producto *)producto->value)->valor);
+    printf("|================|===================================================|=========|================|=========|\n");   
+    printf("========================================= VOLVIENDO AL MENU ===============================================\n");
     getch();
 
 }
 
 int main() { 
     Stock *almacen = createStock();
+    char opcion[2];
+    int auxOpcion;
     //Carritos* carritosDeCompras = createCarritos();
 
-    int opcion = -1;
-    while(opcion != 12) {
+    while(true) {
         system("cls");
         printf("\n========== MENU DE COMPRAS ==========\n\n");
         printf("1.-  Importar productos\n");
@@ -548,9 +545,16 @@ int main() {
         printf("12.- Salir\n");
 
         printf("\nINGRESE SU OPCION: ");
-        scanf("%i", &opcion);
 
-        switch(opcion)
+        while (true) {
+            gets(opcion);
+            if (esNumero(opcion)) break;
+            else printf("Opcion ingresada incorrecta, intentelo de nuevo: ");
+        }
+
+        auxOpcion = convertirNum(opcion);
+
+        switch(auxOpcion)
         {
             case 1: 
                 importar( almacen );
@@ -584,9 +588,9 @@ int main() {
                 //break;
             /*case 11:
                 mostrarCarritos( carritosDeCompras );
-                break;
+                break;*/
             case 12:
-                return 0;*/
+                return EXIT_SUCCESS;
         }
     }
     
