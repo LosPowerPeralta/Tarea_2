@@ -41,7 +41,6 @@ char* AMayuscula( char* str){
         str[index] = toupper(str[index]);
         index += 1;
     }
-
     return str;
 }
 

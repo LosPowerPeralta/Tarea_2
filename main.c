@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include "hashmap.c"
+#include "hashmap2.c"
 #include "list.c"
 
 typedef struct{
@@ -411,11 +411,16 @@ void buscarTipo(HashMap* MapTipo){
 
 void mostrarMarcas(HashMap *MapMarca) {
     size_t cont;
+    int i = hash("champion dog", MapMarca->capacity);
 
-    printf("%s\n", firstMap(MapMarca)->key);
+    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->marca);
+    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->nombre);
+    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->stock);
+    printf("%s\n", ((Producto *)MapMarca->buckets[i]->value)->valor);
+    /*printf("%s\n", firstMap(MapMarca)->key);
     for (cont = 1; cont < MapMarca->size; cont++){
         printf("%s\n", nextMap(MapMarca)->key);
-    }
+    }*/
     getch();
 }
 
@@ -473,9 +478,53 @@ void buscarMarca(HashMap *MapMarca) {
     getch();
 }
 
-/*void buscarNombre(HashMap *MapNombre) {
+void buscarNombre(HashMap *MapNombre) {
+    Pair *producto;
+    char accion[1];
+    char nombre[35];
+    size_t cont;
+    
+    system("cls");
 
-}*/
+    if(MapNombre->size == 0){
+        printf("\n======================== BUSCANDO PRODUCTOS POR NOMBRE ========================\n");
+        printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
+        printf("\n============================= VOLVIENDO AL MENU ==============================\n");
+        getch();
+        return;
+    }
+    producto = searchMap(MapNombre, nombre);
+    firstMap(MapNombre);
+    printf("%s\n", MapNombre->buckets[MapNombre->current]->key);
+    printf("%s\n", ((Producto *)producto->value)->nombre);
+
+    printf("\n========================= BUSCANDO PRODUCTOS POR NOMBRE ========================\n");
+    printf("\nIngrese el nombre del producto: ");
+    fflush(stdin);
+    scanf("%s", nombre);
+    printf("\n");
+
+    if (searchMap(MapNombre, nombre) == NULL) {
+        printf("Nombre escogido no existe, desea intentarlo nuevamente? (s/n): ");
+        fflush(stdin);
+        scanf("%s", accion);
+        accion[0] = tolower(accion[0]);
+
+        if (strcmp(accion, "s") == 0) buscarNombre(MapNombre);
+        return;
+    }
+
+    producto = searchMap(MapNombre, nombre);
+    printf("|    Marca    |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    printf("%6s", ((Producto *)producto->value)->marca);
+    printf("%45s", ((Producto *)producto->value)->nombre);
+    printf("%8d", ((Producto *)producto->value)->stock);
+    printf("%17s", ((Producto *)producto->value)->tipo);
+    printf("%13d |\n", ((Producto *)producto->value)->valor);
+    printf("|=================================================================================================================|\n");
+    getch();
+
+}
 
 int main() { 
     Stock *almacen = createStock();
@@ -518,10 +567,10 @@ int main() {
             case 5: 
                 buscarMarca( almacen->marca );
                 break;
-            /*case 6: 
+            case 6: 
                 buscarNombre( almacen->nombre );
                 break;
-            case 7: 
+            /*case 7: 
                 mostrarProductos( almacen->nombre );
                 break;*/
             //case 8: 
