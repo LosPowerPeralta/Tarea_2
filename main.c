@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <conio.h> //En teoria se puede ya eliminar esta libreria
+#include <conio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,18 +13,11 @@ typedef struct{
     size_t cantProductos;
 }Carrito;  
 
-//Eliminar esta struct, para solo inicializar un HashMap* MapCarritos en el main
 typedef struct{
     HashMap* mapCarritos;
     size_t cantCarritos;
 } Carritos;
 
-/*  PROPUESTA DE STRUCT
-    typedef struct{
-        Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
-        size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
-    }ProductoCarrito;
-*/
 typedef struct{
     char nombre[51];
     size_t cantidad;
@@ -95,7 +88,7 @@ const char *get_csv_field (char * tmp, int k) {
 
 bool esNumero(char *caracter) {
     int cont;
-    if( !strcmp(caracter, "0") ) return false;
+
     for (cont = 0; cont < strlen(caracter); cont++) {
         if (isdigit(caracter[cont]) != true) {
             return false;
@@ -170,6 +163,7 @@ void agregarProducto(Stock* almacen, Producto* nuevoPrdcto ){
 void importar(Stock* almacen){
     FILE* fp = NULL;
     bool errorArchivo = true;
+    system("cls");
     while(errorArchivo){
         system("cls");
         printf("\n========== IMPORTANDO ARCHIVO CSV ==========\n");
@@ -190,7 +184,7 @@ void importar(Stock* almacen){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                system("pause");
+                getch();
                 return;
             } 
         }
@@ -199,6 +193,7 @@ void importar(Stock* almacen){
         }
     }
     char linea[1024];
+    char nombreLista[31];
     char* aux;
     size_t cantGeneros;
     while (fgets (linea, 1023, fp) != NULL) { 
@@ -216,7 +211,7 @@ void importar(Stock* almacen){
     }
     fclose(fp);
     printf("\n============ IMPORTADO CON EXITO ===========\n");
-    system("pause");
+    getch();
 }
 
 void exportar(HashMap* MapNombre ){
@@ -225,7 +220,7 @@ void exportar(HashMap* MapNombre ){
         printf("\n========== EXPORTANDO ARCHIVO CSV ==========\n");
         printf("\nNO HAY PRODUCTOS EN EL ALMACEN PARA EXPORTAR\n");
         printf("\n============= VOLVIENDO AL MENU ============\n");
-        system("pause");
+        getch();
         return;
     }
 
@@ -251,7 +246,7 @@ void exportar(HashMap* MapNombre ){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                system("pause");
+                getch();
                 return;
             } 
         }
@@ -278,7 +273,7 @@ void exportar(HashMap* MapNombre ){
 
     fclose(fp);
     printf("\n============ EXPORTADO CON EXITO ===========\n");
-    system("pause");
+    getch();
 
 }
 
@@ -363,7 +358,7 @@ void menuAgregarProducto( Stock* almacen ){
 
     }
     printf("\n================= VOLVIENDO AL MENU ==================\n");
-    system("pause");
+    getch();
     return;
 }
 
@@ -373,10 +368,10 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n========================= BUSCANDO PRODUCTOS POR TIPO ========================\n");
         printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-        system("pause");
+        getch();
         return;
     }
-
+    
     char tipoDeProducto[31];
     system("cls");
     printf("\n========================= BUSCANDO PRODUCTOS POR TIPO ========================\n");
@@ -411,17 +406,82 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
     }
 
-    system("pause");
+    getch();
 }
 
+void mostrarMarcas(HashMap *MapMarca) {
+    size_t cont;
+
+    printf("%s\n", firstMap(MapMarca)->key);
+    for (cont = 1; cont < MapMarca->size; cont++){
+        printf("%s\n", nextMap(MapMarca)->key);
+    }
+    getch();
+}
+
+void buscarMarca(HashMap *MapMarca) {
+    HashMap *productos;
+    Pair *objeto;
+    char accion[1];
+    char marca[30];
+    size_t cont;
+
+    mostrarMarcas(MapMarca);
+
+    system("cls");
+
+    if(MapMarca->size == 0){
+        printf("\n======================== BUSCANDO PRODUCTOS POR MARCA ========================\n");
+        printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
+        printf("\n============================= VOLVIENDO AL MENU ==============================\n");
+        getch();
+        return;
+    }
+
+    printf("\n========================= BUSCANDO PRODUCTOS POR MARCA ========================\n");
+    printf("\nIngrese la marca de los productos: ");
+    fflush(stdin);
+    scanf("%s", marca);
+    printf("\n");
+
+    if (searchMap(MapMarca, marca) == NULL) {
+        printf("Marca escogida no existe, desea intentarlo nuevamente? (s/n): ");
+        fflush(stdin);
+        scanf("%s", accion);
+        accion[0] = tolower(accion[0]);
+
+        if (strcmp(accion, "s") == 0) buscarMarca(MapMarca);
+        return;
+    }
+
+    system("cls");
+    productos = searchMap(MapMarca, marca)->value;
+    objeto = firstMap(productos);
+    printf("| Producto |    Marca    |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    for (cont = 0; cont < productos->size; cont++) {
+        printf("|%6d", cont + 1);
+        printf("%16s", ((Producto *)objeto->value)->marca);
+        printf("%52s", ((Producto *)objeto->value)->nombre);
+        printf("%8d", ((Producto *)objeto->value)->stock);
+        printf("%17s", ((Producto *)objeto->value)->tipo);
+        printf("%13d |\n", ((Producto *)objeto->value)->valor);
+        printf("|=================================================================================================================|\n");
+        objeto = nextMap(productos);
+    }
+
+    printf("\n============================================= VOLVIENDO AL MENU ==================================================\n");
+    getch();
+}
+
+/*void buscarNombre(HashMap *MapNombre) {
+
+}*/
+
 int main() { 
-    
-    system("color 7c");
     Stock *almacen = createStock();
     //Carritos* carritosDeCompras = createCarritos();
 
     int opcion = -1;
-    char aux[51];
     while(opcion != 12) {
         system("cls");
         printf("\n========== MENU DE COMPRAS ==========\n\n");
@@ -439,13 +499,7 @@ int main() {
         printf("12.- Salir\n");
 
         printf("\nINGRESE SU OPCION: ");
-        scanf("%s", aux);
-        while(!esNumero(aux)){
-            printf("Debe ser un numero: ");
-            fflush(stdin);
-            scanf("%s", aux);
-        }
-        opcion = atoi(aux);
+        scanf("%i", &opcion);
 
         switch(opcion)
         {
@@ -461,20 +515,20 @@ int main() {
             case 4: 
                 buscarTipo( almacen->tipo );
                 break;
-            /*case 5: 
+            case 5: 
                 buscarMarca( almacen->marca );
                 break;
-            case 6: 
+            /*case 6: 
                 buscarNombre( almacen->nombre );
                 break;
             case 7: 
                 mostrarProductos( almacen->nombre );
                 break;*/
             //case 8: 
-                //agregarProductoCarrito( almacen, carritosDeCompras );
+                //agregarProductoCarrito( almacen->nombre, carritosDeCompras );
               //  break;
             /*case 9: 
-                eliminarProductoCarrito( almacen, carritosDeCompras );
+                eliminarProductoCarrito( almacen->nombre, carritosDeCompras );
                 break;
             case 10:*/
                 //comprarCarrito( carritosDeCompras );
