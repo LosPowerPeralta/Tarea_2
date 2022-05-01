@@ -89,7 +89,7 @@ const char *get_csv_field (char * tmp, int k) {
 
 bool esNumero(char *caracter) {
     int cont;
-
+    if( !strcmp(caracter, "0") ) return false;
     for (cont = 0; cont < strlen(caracter); cont++) {
         if (isdigit(caracter[cont]) != true) {
             return false;
@@ -98,7 +98,7 @@ bool esNumero(char *caracter) {
 
     return true;
 }
-
+//Sugerencia de usar atoi
 size_t convertirNum(char *string) {
     size_t cont;
     size_t num = 0;
@@ -579,10 +579,10 @@ int main() {
                 mostrarProductos( almacen->nombre );
                 break;*/
             //case 8: 
-                //agregarProductoCarrito( almacen->nombre, carritosDeCompras );
+                //agregarProductoCarrito( almacen, carritosDeCompras );
               //  break;
             /*case 9: 
-                eliminarProductoCarrito( almacen->nombre, carritosDeCompras );
+                eliminarProductoCarrito( almacen, carritosDeCompras );
                 break;
             case 10:*/
                 //comprarCarrito( carritosDeCompras );
