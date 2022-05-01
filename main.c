@@ -12,10 +12,12 @@ typedef struct{
     size_t cantProductos;
 }Carrito;  
 
-typedef struct{
-    HashMap* mapCarritos;
-    size_t cantCarritos;
-} Carritos;
+/*  PROPUESTA DE STRUCT
+    typedef struct{
+        Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
+        size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
+    }ProductoCarrito;
+*/
 
 typedef struct{
     char nombre[51];
@@ -526,7 +528,7 @@ int main() {
     Stock *almacen = createStock();
     char opcion[2];
     int auxOpcion;
-    //Carritos* carritosDeCompras = createCarritos();
+    //HashMap* carritosDeCompras = createMap(15);
 
     while(true) {
         system("cls");
