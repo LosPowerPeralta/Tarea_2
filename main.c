@@ -397,7 +397,6 @@ void buscarTipo(HashMap* MapTipo){
     if( (aux = searchMap( MapTipo, tipoDeProducto)) ){
         system("cls");
         mapProductos = (HashMap*) searchMap(MapTipo, tipoDeProducto)->value;
-        printf("%i", mapProductos->size);
         producto = (Producto*) firstMap(mapProductos)->value;
         printf("================================================== PRODUCTO(S) =======================================================\n");
         printf("| Producto |      Marca     |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
