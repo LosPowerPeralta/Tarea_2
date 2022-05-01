@@ -382,7 +382,7 @@ void buscarTipo(HashMap* MapTipo){
         system("pause");
         return;
     }
-    
+    char accion[1];
     char tipoDeProducto[31];
     system("cls");
     printf("\n========================= BUSCANDO PRODUCTOS POR TIPO ========================\n");
@@ -390,34 +390,41 @@ void buscarTipo(HashMap* MapTipo){
     fflush(stdin);
     gets(tipoDeProducto);
 
-    HashMap* mapaAux ;
+    HashMap* mapProductos ;
     Pair* aux ;
-    Producto* prdctoAux ;
+    Producto* producto;
 
     if( (aux = searchMap( MapTipo, tipoDeProducto)) ){
-        printf("\n==================== PRODUCTO ====================");
-        printf("== CANTIDAD ==");
-        printf("== PRECIO ====\n");
-        mapaAux = (HashMap *)aux->value;
-        aux = firstMap(mapaAux);
-
-        while(aux){
-
-            prdctoAux = (Producto*) aux->value;
-            printf("\n%50s    ", prdctoAux->nombre);
-            printf("%7i", prdctoAux->stock);
-            printf("%12i", prdctoAux->valor);
-            aux = nextMap(mapaAux);
-
+        system("cls");
+        mapProductos = (HashMap*) searchMap(MapTipo, tipoDeProducto)->value;
+        printf("%i", mapProductos->size);
+        producto = (Producto*) firstMap(mapProductos)->value;
+        printf("================================================== PRODUCTO(S) =======================================================\n");
+        printf("| Producto |      Marca     |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+        printf("|==========|================|===================================================|=========|================|=========|\n");
+        for (int cont = 0; cont < mapProductos->size; cont++) {
+            printf("|%6d    |", cont + 1);
+            printf("%14s  |", producto->marca);
+            printf("%50s |", producto->nombre);
+            printf("%6d   |", producto->stock);
+            printf("%13s   |", producto->tipo);
+            printf("%8d |\n", producto->valor);
+            printf("|==========|================|===================================================|=========|================|=========|\n");
+            if(cont != mapProductos->size - 1) producto = (Producto*) nextMap(mapProductos)->value;
         }
-        printf("\n\n============================== BUSQUEDA EXITOSA ==============================\n");
+
+        printf("=============================================== VOLVIENDO AL MENU ====================================================\n");
+        system("pause");
     }
     else{
-        printf("\n                       NO EXISTEN PRODUCTOS DE ESE TIPO\n");
-        printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-    }
+        printf("\nTipo escogido no existe, desea intentarlo nuevamente? (s/n): ");
+        fflush(stdin);
+        scanf("%s", accion);
+        accion[0] = tolower(accion[0]);
 
-    system("pause");
+        if (strcmp(accion, "s") == 0) buscarTipo(MapTipo);
+        return;
+    }
 }
 
 void buscarMarca(HashMap *MapMarca) {
