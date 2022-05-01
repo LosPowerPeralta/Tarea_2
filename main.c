@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <conio.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
@@ -195,7 +194,7 @@ void importar(Stock* almacen){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                getch();
+                system("pause");
                 return;
             } 
         }
@@ -222,7 +221,7 @@ void importar(Stock* almacen){
     }
     fclose(fp);
     printf("\n============ IMPORTADO CON EXITO ===========\n");
-    getch();
+    system("pause");
 }
 
 void exportar(HashMap* MapNombre ){
@@ -231,7 +230,7 @@ void exportar(HashMap* MapNombre ){
         printf("\n========== EXPORTANDO ARCHIVO CSV ==========\n");
         printf("\nNO HAY PRODUCTOS EN EL ALMACEN PARA EXPORTAR\n");
         printf("\n============= VOLVIENDO AL MENU ============\n");
-        getch();
+        system("pause");
         return;
     }
 
@@ -257,7 +256,7 @@ void exportar(HashMap* MapNombre ){
 
             if(strcmp( reintento, "n" ) == 0){
                 printf("\n============= VOLVIENDO AL MENU ============\n");
-                getch();
+                system("pause");
                 return;
             } 
         }
@@ -284,7 +283,7 @@ void exportar(HashMap* MapNombre ){
 
     fclose(fp);
     printf("\n============ EXPORTADO CON EXITO ===========\n");
-    getch();
+    system("pause");
 
 }
 
@@ -369,7 +368,7 @@ void menuAgregarProducto( Stock* almacen ){
 
     }
     printf("\n================= VOLVIENDO AL MENU ==================\n");
-    getch();
+    system("pause");
     return;
 }
 
@@ -379,7 +378,7 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n========================= BUSCANDO PRODUCTOS POR TIPO ========================\n");
         printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-        getch();
+        system("pause");
         return;
     }
     
@@ -417,7 +416,7 @@ void buscarTipo(HashMap* MapTipo){
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
     }
 
-    getch();
+    system("pause");
 }
 
 void buscarMarca(HashMap *MapMarca) {
@@ -433,7 +432,7 @@ void buscarMarca(HashMap *MapMarca) {
         printf("\n======================== BUSCANDO PRODUCTOS POR MARCA ========================\n");
         printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-        getch();
+        system("pause");
         return;
     }
 
@@ -471,7 +470,7 @@ void buscarMarca(HashMap *MapMarca) {
     }
 
     printf("=============================================== VOLVIENDO AL MENU ====================================================\n");
-    getch();
+    system("pause");
 }
 
 void buscarNombre(HashMap *MapNombre) {
@@ -486,7 +485,7 @@ void buscarNombre(HashMap *MapNombre) {
         printf("\n======================== BUSCANDO PRODUCTOS POR NOMBRE ========================\n");
         printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
         printf("\n============================= VOLVIENDO AL MENU ==============================\n");
-        getch();
+        system("pause");
         return;
     }
 
@@ -518,11 +517,12 @@ void buscarNombre(HashMap *MapNombre) {
     printf("%8d |\n", ((Producto *)producto->value)->valor);
     printf("|================|===================================================|=========|================|=========|\n");   
     printf("========================================= VOLVIENDO AL MENU ===============================================\n");
-    getch();
+    system("pause");
 
 }
 
-int main() { 
+int main() {
+    //system("color 7c"); Sugerencia cambio de color
     Stock *almacen = createStock();
     char opcion[2];
     int auxOpcion;
