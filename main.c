@@ -610,9 +610,9 @@ int main() {
             case 6: 
                 buscarNombre( almacen->nombre );
                 break;
-            /*case 7: 
-                mostrarProductos( almacen->nombre );
-                break;*/
+            case 7: 
+                mostrarProductos( almacen);
+                break;
             //case 8: 
                 //agregarProductoCarrito( almacen, carritosDeCompras );
               //  break;
