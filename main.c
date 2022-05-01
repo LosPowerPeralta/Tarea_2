@@ -528,6 +528,34 @@ void buscarNombre(HashMap *MapNombre) {
 
 }
 
+void mostrarProductos(Stock* almacen)
+{
+    if(almacen->nombre->size == 0)
+    {
+        printf("No hay productos en el almacen para mostrar\n");
+        printf("Volviendo al menu\n");
+        getch();
+        return;
+    }
+    Pair* variable;
+    Producto* prAux;
+
+    variable = firstMap(almacen->nombre);
+    while(true)
+    {
+        prAux = (Producto*) variable->value;    
+        printf("Nombre del producto: %c\n", prAux->nombre);
+        printf("Tipo del producto: %c\n", prAux->tipo);
+        printf("Marca del producto: %c\n", prAux->marca);
+        printf("Stock del producto: %zd\n", prAux->stock);
+        printf("Precio del producto: %zd\n", prAux->valor);
+        variable = nextMap(almacen->nombre);
+        if(variable == NULL)
+            break;
+    }
+    printf("Volviendo al menu\n");
+}
+
 int main() {
     //system("color 7c"); Sugerencia cambio de color
     Stock *almacen = createStock();
