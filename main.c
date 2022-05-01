@@ -554,6 +554,7 @@ int main() {
         }
 
         auxOpcion = convertirNum(opcion);
+        fflush(stdin);
 
         switch(auxOpcion)
         {
