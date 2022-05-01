@@ -205,7 +205,6 @@ void importar(Stock* almacen){
         }
     }
     char linea[1024];
-    char nombreLista[31];
     char* aux;
     size_t cantGeneros;
     while (fgets (linea, 1023, fp) != NULL) { 
