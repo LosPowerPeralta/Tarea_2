@@ -6,22 +6,6 @@
 #include "hashmap.c"
 #include "list.c"
 
-typedef struct{
-    char nombre[31];
-    List* productos;
-    size_t cantProductos;
-}Carrito;  
-
-typedef struct{
-    Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
-    size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
-}ProductoCarrito;
-
-typedef struct{
-    char nombre[51];
-    size_t cantidad;
-    size_t valor;
-}ProductoCarrito;
 
 typedef struct{
     char nombre[51];
@@ -30,6 +14,18 @@ typedef struct{
     size_t stock;
     size_t valor;
 } Producto;
+
+typedef struct{
+    Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
+    size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
+}ProductoCarrito;
+
+typedef struct{
+    char nombre[31];
+    List* productos;
+    size_t cantProductos;
+    size_t cantTotalProductos;
+}Carrito;  
 
 typedef struct{
     HashMap* tipo;
