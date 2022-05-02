@@ -657,7 +657,7 @@ int main() {
     Stock *almacen = createStock();
     char opcion[2];
     int auxOpcion;
-    //HashMap* carritosDeCompras = createMap(15);
+    HashMap* carritosDeCompras = createMap(15);
 
     while(true) {
         system("cls");
