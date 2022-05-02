@@ -12,12 +12,10 @@ typedef struct{
     size_t cantProductos;
 }Carrito;  
 
-/*  PROPUESTA DE STRUCT
-    typedef struct{
-        Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
-        size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
-    }ProductoCarrito;
-*/
+typedef struct{
+    Producto* referencia; //Como idea es que el producto que se agrega al carrito tenga un puntero de referencia al producto real,
+    size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
+}ProductoCarrito;
 
 typedef struct{
     char nombre[51];
@@ -556,6 +554,95 @@ void mostrarProductos(Stock* almacen)
     printf("Volviendo al menu\n");
 }
 
+void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
+{
+     system("cls");
+    if( almacen->nombre->size == 0 ){
+        printf("\n========== AGREGAR PRODUCTO AL CARRITO ==========\n");
+        printf("\n         NO HAY PRODUCTOS EN EL ALMACEN\n");
+        printf("\n============== VOLVIENDO AL MENU ================\n");
+        system("pause");
+        return;
+    }
+
+    char reintento[2];
+    char nombreAux[51];
+    while( true ){
+        system("cls");
+        printf("\n========== AGREGAR PRODUCTO AL CARRITO ==========\n");
+        printf("\nNombre del producto: ");
+        fflush(stdin);
+        gets(nombreAux);
+        Pair* aux;
+        Producto* productoAux;
+        Carrito* carritoAux;
+        if( aux = searchMap( almacen->nombre , nombreAux ) ){
+            productoAux = ( Producto* ) aux->value;
+            printf("\nNombre del carrito: ");
+            fflush(stdin);
+            gets(nombreAux);
+
+            if( !(aux = searchMap( MapCarritos, nombreAux )) ){
+                Carrito* nuevoCarrito = createCarrito(nombreAux);
+                insertMap(MapCarritos, nuevoCarrito->nombre, nuevoCarrito);
+                aux = searchMap( MapCarritos, nombreAux);
+                printf("\nNUEVO CARRITO CREADO\n");
+            }
+
+            carritoAux = ( Carrito* ) aux->value;
+            ProductoCarrito* prdctoCarrito = (ProductoCarrito*) malloc( sizeof(ProductoCarrito) );
+            prdctoCarrito->referencia = productoAux;
+
+            char numeroAux[11];
+            do{
+                printf("\nIngrese la cantidad de productos que agregara: ");
+                fflush(stdin);
+                scanf("%s", numeroAux);
+
+                while(!esNumero(numeroAux)){
+                    printf("Debe ser un numero: ");
+                    fflush(stdin);
+                    scanf("%s", numeroAux);
+                }
+
+                prdctoCarrito->cantidad = atoi(numeroAux);
+                if(prdctoCarrito->cantidad > productoAux->stock){
+                    printf("\nDEBE SER UNA CANTIDAD MENOR AL STOCK DEL PRODUCTO\n");
+                }
+
+            } while ( prdctoCarrito->cantidad > productoAux->stock );
+
+            productoAux->stock -= prdctoCarrito->cantidad;
+            if( productoAux->stock == 0){ 
+                eraseMap(almacen->nombre, prdctoCarrito->referencia->nombre);
+                aux = searchMap(almacen->tipo, prdctoCarrito->referencia->tipo);
+                eraseMap (aux->value, prdctoCarrito->referencia->nombre);
+                aux = searchMap(almacen->marca, prdctoCarrito->referencia->marca);
+                eraseMap (aux->value, prdctoCarrito->referencia->nombre);
+            }
+
+            pushBack( carritoAux->productos, prdctoCarrito);
+            carritoAux->cantProductos += 1;
+            carritoAux->cantTotalProductos += prdctoCarrito->cantidad;
+            printf("\nPRODUCTO AGREGADO CON EXITO\n");
+        }
+        else{
+            printf("\nPRODUCTO NO ENCONTRADO\n");
+        }
+        
+        printf("\nDESEA AGREGAR OTRO PRODUCTO? [s/n]: ");
+        fflush(stdin);
+        scanf("%s", reintento);
+        validarS_N( reintento );
+
+        if(strcmp( reintento, "n" ) == 0){
+            break;
+        }
+
+    }
+    printf("\n============== VOLVIENDO AL MENU ================\n");
+    system("pause");
+}
 int main() {
     //system("color 7c"); Sugerencia cambio de color
     Stock *almacen = createStock();
