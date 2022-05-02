@@ -560,30 +560,38 @@ void mostrarProductos(Stock* almacen)
 {
     if(almacen->nombre->size == 0)
     {
-        printf("No hay productos en el almacen para mostrar\n");
-        printf("Volviendo al menu\n");
+        printf("\n======================== MOSTRANDO TODOS LOS PRODUCTOS ========================\n");
+        printf("\n                 NO HAY PRODUCTOS EN EL ALMACEN PARA MOSTRAR\n");
+        printf("\n============================== VOLVIENDO AL MENU ==============================\n");
         system("pause");
         return;
     }
     Pair* variable;
     Producto* prAux;
 
+    system("cls");
+    printf("================================================== PRODUCTO(S) =======================================================\n");
+    printf("| Producto |      Marca     |                        Nombre                     |  Stock  |      Tipo      |  Valor  |\n");
+    printf("|==========|================|===================================================|=========|================|=========|\n");
     variable = firstMap(almacen->nombre);
-    while(true)
+    for (int cont = 0; cont < almacen->nombre->size; cont++)
     {
         prAux = (Producto*) variable->value;    
-        printf("Nombre del producto: %c\n", prAux->nombre);
-        printf("Tipo del producto: %c\n", prAux->tipo);
-        printf("Marca del producto: %c\n", prAux->marca);
-        printf("Stock del producto: %zd\n", prAux->stock);
-        printf("Precio del producto: %zd\n", prAux->valor);
+        printf("|%6d    |", cont + 1);
+        printf("%14s  |", prAux->marca);
+        printf("%50s |", prAux->nombre);
+        printf("%6d   |", prAux->stock);
+        printf("%13s   |", prAux->tipo);
+        printf("%8d |\n", prAux->valor);
+        printf("|==========|================|===================================================|=========|================|=========|\n");
+
         variable = nextMap(almacen->nombre);
         if(variable == NULL)
             break;
     }
-    printf("Volviendo al menu\n");
+    printf("\n================================================= VOLVIENDO AL MENU ==================================================\n");
+    system("pause");
 }
-
 void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
 {
      system("cls");
