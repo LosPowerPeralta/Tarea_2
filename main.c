@@ -45,6 +45,15 @@ Stock *createStock(){
     return stock;
 }
 
+Carrito* createCarrito( char* nombre ){
+    Carrito* carrito = (Carrito*) malloc( sizeof(Carrito) );
+    strcpy(carrito->nombre , nombre);
+    carrito->cantProductos = 0;
+    carrito->productos = createList();
+    carrito->cantTotalProductos = 0;
+    return carrito;
+}
+
 const char *get_csv_field (char * tmp, int k) {
     int open_mark = 0;
     char* ret=(char*) malloc (100*sizeof(char));
