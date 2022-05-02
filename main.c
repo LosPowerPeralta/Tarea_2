@@ -20,6 +20,11 @@ typedef struct{
     size_t cantidad;      //para conseguir todos los datos y facilitar posteriormente funciones como "eliminar del carrito"
 }ProductoCarrito;
 
+// Struct Carrito // 
+/* 
+   Esta struct es la que almacena las variables del carrito a crear o ya creado y el que guarda 
+   los datos de los productos que se van ingresando en este 
+*/
 typedef struct{
     char nombre[31];
     List* productos;
@@ -43,6 +48,8 @@ Stock *createStock(){
     return stock;
 }
 
+// Funcion que reserva memoria para un tipo Carrito y tambien para la lista que almacenara los productos
+// Luego retorna la variable de tipo Carrito.
 Carrito* createCarrito( char* nombre ){
     Carrito* carrito = (Carrito*) malloc( sizeof(Carrito) );
     strcpy(carrito->nombre , nombre);
@@ -556,6 +563,12 @@ void buscarNombre(HashMap *MapNombre) {
 
 }
 
+// Funcion mostrarProductos //
+/* 
+   Esta funcion se encarga de mostrar todos los productos que estan en el almacen y mostrar cada
+   dato de dicho producto como el tipo, marca y nombre de este.
+   Funcion de tipo void por lo que no retorna nada
+*/ 
 void mostrarProductos(Stock* almacen)
 {
     if(almacen->nombre->size == 0)
@@ -592,6 +605,13 @@ void mostrarProductos(Stock* almacen)
     printf("\n================================================= VOLVIENDO AL MENU ==================================================\n");
     system("pause");
 }
+
+// Funcion agregarProductoCarrito //
+/* 
+   Esta funcion se encarga de agregar uno o varios productos a un carrito que de no existir crea uno nuevo,
+   en caso contrario ocupa el ya creado. 
+   Funcion tipo void no retorna nada. 
+*/
 void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
 {
      system("cls");
