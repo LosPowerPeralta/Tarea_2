@@ -537,7 +537,7 @@ void mostrarProductos(Stock* almacen)
     {
         printf("No hay productos en el almacen para mostrar\n");
         printf("Volviendo al menu\n");
-        getch();
+        system("pause");
         return;
     }
     Pair* variable;
