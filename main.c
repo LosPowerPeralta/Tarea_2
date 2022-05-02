@@ -709,9 +709,9 @@ int main() {
             case 7: 
                 mostrarProductos( almacen);
                 break;
-            //case 8: 
-                //agregarProductoCarrito( almacen, carritosDeCompras );
-              //  break;
+            case 8: 
+                agregarProductoCarrito( almacen, carritosDeCompras );
+                break;
             /*case 9: 
                 eliminarProductoCarrito( almacen, carritosDeCompras );
                 break;
