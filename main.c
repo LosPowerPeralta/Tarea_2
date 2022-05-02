@@ -33,6 +33,8 @@ typedef struct{
     HashMap* nombre;
 } Stock;
 
+//Función que reserva memoria para un tipo stock y tamién para los mapas del almacen
+//Luego retorna la variable de tipo stock al main
 Stock *createStock(){
     Stock* stock = (Stock*) malloc( sizeof(Stock) );
     stock->nombre = createMap(150);
@@ -113,6 +115,8 @@ size_t convertirNum(char *string) {
     return num;
 }
 
+//Función que recibe un char* y valida que este sea una s o un n, en caso contrario,
+//se pide volver a ingresarlo hasta que se cumpla la condición
 void validarS_N(char* opcionS_N){
 
     while( strcmp( opcionS_N, "n" ) != 0  && strcmp( opcionS_N, "s" ) != 0){
@@ -123,6 +127,8 @@ void validarS_N(char* opcionS_N){
 
 }
 
+//Función que ingresa un producto al mapa nombre del almacen, 
+//en caso de existir previamente aumenta el stock
 void agregarXNombre(HashMap* MapNombre, Producto* nuevoPrdcto){
     Pair* aux ;
     Producto* prdctoAux ;
@@ -137,6 +143,9 @@ void agregarXNombre(HashMap* MapNombre, Producto* nuevoPrdcto){
 
 }
 
+//Función que ingresa un producto al mapa marca del almacen.
+//Para hacer esto primero busca en el mapa marca, la marca correspondiente al producto,
+//obtiene el mapa exclusivo para esa marca y ahí inserta el producto con clave nombre
 void agregarXMarca(HashMap* MapMarca , Producto* nuevoPrdcto){
     HashMap* mapaAux ;
     Pair* aux ;
@@ -153,6 +162,9 @@ void agregarXMarca(HashMap* MapMarca , Producto* nuevoPrdcto){
     }
 }
 
+//Función que ingresa un producto al mapa tipo del almacen.
+//Para hacer esto primero busca en el mapa tipo, el tipo correspondiente al producto,
+//obtiene el mapa exclusivo para esa tipo y ahí inserta el producto con clave nombre
 void agregarXTipo(HashMap* MapTipo , Producto* nuevoPrdcto){
     HashMap* mapaAux ;
     Pair* aux ;
@@ -169,18 +181,22 @@ void agregarXTipo(HashMap* MapTipo , Producto* nuevoPrdcto){
     }
 }
 
+//Función para ordenar todo los tipos de agregar producto
 void agregarProducto(Stock* almacen, Producto* nuevoPrdcto ){
     agregarXNombre(almacen->nombre, nuevoPrdcto);
     agregarXMarca(almacen->marca, nuevoPrdcto);
     agregarXTipo(almacen->tipo, nuevoPrdcto);
 }
 
+//Función que lee el archivo csv y por cada linea leida, 
+//guarda los datos del producto en una variable de tipo producto
+//para luego ingresarla al almacen con la función agregar producto
 void importar(Stock* almacen){
     FILE* fp = NULL;
     bool errorArchivo = true;
     system("cls");
-    while(errorArchivo){
-        system("cls");
+    while(errorArchivo){ //valida que se repita el proceso en caso de que el 
+        system("cls");  //usuario ingresa s y ocurrio un error al abrir el archivo
         printf("\n========== IMPORTANDO ARCHIVO CSV ==========\n");
         char nombreArchivo[31];
         printf("\nIngrese el nombre del archivo: ");
@@ -228,6 +244,8 @@ void importar(Stock* almacen){
     system("pause");
 }
 
+//Función que exporta todos los productos del almacen a un archivo csv, siendo un producto por cada linea,
+//la función exporta del mapa nombre ya que este es el más fácil de acceder
 void exportar(HashMap* MapNombre ){
     if( MapNombre->size == 0 ){
         system("cls");
@@ -240,8 +258,8 @@ void exportar(HashMap* MapNombre ){
 
     FILE* fp = NULL;
     bool errorArchivo = true;
-    while(errorArchivo){
-        system("cls");
+    while(errorArchivo){ //valida que se repita el proceso en caso de que el 
+        system("cls");   //usuario ingresa s y ocurrio un error al abrir el archivo
         printf("\n========== EXPORTANDO ARCHIVO CSV ==========\n");
         char nombreArchivo[31];
         printf("\nIngrese el nombre del archivo: ");
@@ -291,6 +309,8 @@ void exportar(HashMap* MapNombre ){
 
 }
 
+//Función que recibe del usuario todos los datos de un producto para asignarlos a una variable de este tipo
+//con el fin de agregar este producto al almacen
 Producto* createProducto(){
     Producto* productoActual = (Producto*) malloc( sizeof(Producto) );
     char aux[11];
@@ -325,6 +345,8 @@ Producto* createProducto(){
     return productoActual;
 }
 
+//Función que informa al usuario de como se agrega el producto, o si desea agregar otro
+//valida tambien que si esta repetido se aumenta el stock, o si tiene distinta marca o tipo del que exista no se agregue
 void menuAgregarProducto( Stock* almacen ){
     char reintento[2];
     bool agregarOtro = true;
@@ -376,6 +398,9 @@ void menuAgregarProducto( Stock* almacen ){
     return;
 }
 
+//Función que busca todos los productos de un cierto tipo ingresado por el usuario
+//cuando el usuario ingresa un tipo, se abre el mapa exclusivo de ese tipo (en caso de existir)
+//y muestra todos los productos que se encuentran en este
 void buscarTipo(HashMap* MapTipo){
     if( MapTipo->size == 0 ){
         system("cls");
