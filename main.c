@@ -706,20 +706,6 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     system("pause");
 }
 
-bool buscarEnListaCarritos(Carrito *carro, char *producto) {
-    size_t cont;
-    ProductoCarrito *prdctCarrito;
-
-    firstList(carro->productos);
-    for (cont = 0; cont < carro->cantProductos; cont++) {
-        prdctCarrito = (ProductoCarrito *)carro->productos->current->data;
-        if (strcmp(prdctCarrito->referencia->nombre, producto)) return true;
-        nextList(carro->productos);
-    }
-
-    return false;
-}
-
 void eliminarProductoCarrito(Stock* almacen, HashMap* MapCarritos){
     
     if( MapCarritos->size == 0 ){
