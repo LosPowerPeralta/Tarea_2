@@ -110,6 +110,7 @@ bool esNumero(char *caracter) {
 
     return true;
 }
+
 //Sugerencia de usar atoi
 size_t convertirNum(char *string) {
     size_t cont;
@@ -569,7 +570,7 @@ void buscarNombre(HashMap *MapNombre) {
    dato de dicho producto como el tipo, marca y nombre de este.
    Funcion de tipo void por lo que no retorna nada
 */ 
-void mostrarProductos(Stock* almacen)
+void mostrarProductos(Stock* almacen, size_t num)
 {
     if(almacen->nombre->size == 0)
     {
@@ -602,8 +603,10 @@ void mostrarProductos(Stock* almacen)
         if(variable == NULL)
             break;
     }
-    printf("\n================================================= VOLVIENDO AL MENU ==================================================\n");
-    system("pause");
+    if (num == 0) {
+        printf("\n================================================= VOLVIENDO AL MENU ==================================================\n");
+        system("pause");
+    }
 }
 
 // Funcion agregarProductoCarrito //
@@ -611,9 +614,7 @@ void mostrarProductos(Stock* almacen)
    Esta funcion se encarga de agregar uno o varios productos a un carrito que de no existir crea uno nuevo,
    en caso contrario ocupa el ya creado. 
    Funcion tipo void no retorna nada. 
-*/ 
-
-
+*/
 void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
 {
      system("cls");
@@ -630,7 +631,7 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     while( true ){
         system("cls");
         printf("\n========== AGREGAR PRODUCTO AL CARRITO ==========\n");
-        
+        mostrarProductos(almacen, 1);
         printf("\nNombre del producto: ");
         fflush(stdin);
         gets(nombreAux);
@@ -705,6 +706,20 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     system("pause");
 }
 
+bool buscarEnListaCarritos(Carrito *carro, char *producto) {
+    size_t cont;
+    ProductoCarrito *prdctCarrito;
+
+    firstList(carro->productos);
+    for (cont = 0; cont < carro->cantProductos; cont++) {
+        prdctCarrito = (ProductoCarrito *)carro->productos->current->data;
+        if (strcmp(prdctCarrito->referencia->nombre, producto)) return true;
+        nextList(carro->productos);
+    }
+
+    return false;
+}
+
 void eliminarProductoCarrito(Stock *almacen, HashMap *carritosDeCompras) {
     char *name[30];
     char *producto[30];
@@ -747,31 +762,8 @@ void eliminarProductoCarrito(Stock *almacen, HashMap *carritosDeCompras) {
 
 }
 
-
-/*
-Mostrar carritos de compra: Se muestran los nombres de los carritos 
-de compra creados y la cantidad de productos que tiene cada uno de ellos. 
-*/
-void mostrarCarritosDeCompra(Carritos* carritosDeCompra){
-    system("cls");
-    size_t i=1;
-    Pair * aux = firstMap(carritosDeCompra->arrCarritos);
-    printf("=============[Carritos de Compra]=============\n\n");
-    while (aux != NULL){
-        printf("%u.- %s\n", i, ((Carrito*)aux->value)->nombre);
-        printf(" -Cantidad Disponible = %zd\n", ((Carrito*)aux->value)->cantProductos);
-        printf("\n");
-        aux = nextMap(carritosDeCompra->arrCarritos);
-        i++;
-    }
-
-    printf("==============[FIN DE LA LECTURA]==============");
-
-    getch();
-}
-
 int main() {
-    system("color 0d"); 
+    //system("color 7c"); Sugerencia cambio de color
     Stock *almacen = createStock();
     char opcion[2];
     int auxOpcion;
@@ -825,20 +817,20 @@ int main() {
                 buscarNombre( almacen->nombre );
                 break;
             case 7: 
-                mostrarProductos( almacen);
+                mostrarProductos( almacen, 0);
                 break;
             case 8: 
                 agregarProductoCarrito( almacen, carritosDeCompras );
                 break;
-            /*case 9: 
+            case 9:
                 eliminarProductoCarrito( almacen, carritosDeCompras );
                 break;
-            case 10:*/
+            case 10:
                 //comprarCarrito( carritosDeCompras );
                 //break;
-            /*case 11:
+            case 11:
                 mostrarCarritos( carritosDeCompras );
-                break;*/
+                break;
             case 12:
                 return EXIT_SUCCESS;
         }
