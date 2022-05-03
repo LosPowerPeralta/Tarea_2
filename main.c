@@ -653,6 +653,7 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     while( true ){
         system("cls");
         printf("\n========== AGREGAR PRODUCTO AL CARRITO ==========\n");
+        
         printf("\nNombre del producto: ");
         fflush(stdin);
         gets(nombreAux);
@@ -726,6 +727,49 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     printf("\n============== VOLVIENDO AL MENU ================\n");
     system("pause");
 }
+
+void eliminarProductoCarrito(Stock *almacen, HashMap *carritosDeCompras) {
+    char *name[30];
+    char *producto[30];
+    Pair *auxCarrito;
+    Carrito *carro;
+    ProductoCarrito *a;
+    Producto *objeto;
+    size_t cont;
+
+    system("cls");
+    if( carritosDeCompras->size == 0 ){
+        printf("\n========== ELIMINAR PRODUCTO DEL CARRITO ==========\n");
+        printf("\n         NO HAY CARRITOS REGISTRADOS\n");
+        printf("\n============== VOLVIENDO AL MENU ================\n");
+        system("pause");
+        return;
+    }
+
+    printf("\n========== ELIMINAR PRODUCTO DEL CARRITO ==========\n\n");
+    printf("Escriba el nombre del carrito: ");
+
+    while (true) {
+        fflush(stdin);
+        gets(name);
+
+        printf("\n");
+        if ((auxCarrito = searchMap(carritosDeCompras, name)) != NULL) break;
+        printf("Carrito %s no existe, intentelo de nuevo: ", name);
+    } 
+    
+    carro = (Carrito *)auxCarrito->value;
+    system("cls");
+    carro->cantTotalProductos = ((ProductoCarrito *)carro->productos->current->data)->cantidad;
+    popBack(carro->productos);
+    carro->cantProductos--;
+
+    printf("Producto eliminado con exito!!\n");
+    printf("\n==================================== VOLVIENDO AL MENU ======================================\n");
+    system("pause");
+
+}
+
 int main() {
     system("color 0d"); 
     Stock *almacen = createStock();
