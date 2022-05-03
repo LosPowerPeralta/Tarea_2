@@ -761,6 +761,59 @@ void eliminarProductoCarrito(Stock* almacen, HashMap* MapCarritos){
     system("pause");
 }
 
+void comprarCarrito( HashMap* MapCarritos ){
+    system("cls");
+    if( MapCarritos->size == 0 ){
+        printf("\n======================= EFECTUANDO COMPRA DE CARRITO ========================\n");
+        printf("\n                  ACTUALMENTE NO HAY CARRITOS DE COMPRAS\n");
+        printf("\n============================ VOLVIENDO AL MENU ==============================\n");
+        system("pause");
+        return;
+    }
+    
+    char nombreAux[31];
+    printf("\n======================= EFECTUANDO COMPRA DE CARRITO ========================\n");
+    printf("\nNombre del carrito: ");
+    fflush(stdin);
+    gets(nombreAux);
+    Pair* aux;
+    if( aux = searchMap(MapCarritos, nombreAux) ){
+        system("cls");
+        printf("\n=========================================================== BOLETA =============================================================\n");
+        printf("\n==================== PRODUCTO ========================= MARCA ============= TIPO ============ CANTIDAD ==== PRECIO ==== TOTAL ==\n");
+        int total = 0;
+        Carrito* carritoAux;
+        ProductoCarrito* pdctCarritoAux;
+        Producto* productoAux;
+        carritoAux = (Carrito*) aux->value;
+        pdctCarritoAux = popFront(carritoAux->productos);
+        while(carritoAux->cantProductos > 0){
+
+            productoAux = (Producto*) pdctCarritoAux->referencia;
+            printf("\n%50s", productoAux->nombre);
+            printf("%20s", productoAux->marca);
+            printf("%20s", productoAux->tipo);
+            printf("%12i", pdctCarritoAux->cantidad);
+            printf("%12i", productoAux->valor);
+            printf("%11i", (pdctCarritoAux->cantidad * productoAux->valor) );
+            total += (pdctCarritoAux->cantidad * productoAux->valor);
+
+            pdctCarritoAux = popFront(carritoAux->productos);
+            carritoAux->cantProductos -= 1;
+        }
+        eraseMap(MapCarritos, carritoAux->nombre);
+        printf("\n\n================================================================================================================================\n");
+        printf("\n                                                  TOTAL A PAGAR : %c%i\n", 36, total);
+        printf("\n====================================================== VOLVIENDO AL MENU =======================================================\n");
+        system("pause");
+    }
+    else{
+        printf("\nCARRITO NO ENCONTRADO\n");
+        printf("\n============================ VOLVIENDO AL MENU ==============================\n");
+        system("pause");
+    }
+}
+
 int main() {
     system("color 0d");
     Stock *almacen = createStock();
@@ -825,8 +878,8 @@ int main() {
                 eliminarProductoCarrito( almacen, carritosDeCompras );
                 break;
             case 10:
-                //comprarCarrito( carritosDeCompras );
-                //break;
+                comprarCarrito( carritosDeCompras );
+                break;
             case 11:
                 mostrarCarritos( carritosDeCompras );
                 break;
