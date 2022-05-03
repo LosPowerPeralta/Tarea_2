@@ -99,6 +99,7 @@ const char *get_csv_field (char * tmp, int k) {
     return NULL;
 }
 
+//Función para validar que la palabra ingresada sea un número
 bool esNumero(char *caracter) {
     int cont;
     if( !strcmp(caracter, "0") ) return false;
@@ -111,7 +112,7 @@ bool esNumero(char *caracter) {
     return true;
 }
 
-//Sugerencia de usar atoi
+//Función para convertir un string en un número
 size_t convertirNum(char *string) {
     size_t cont;
     size_t num = 0;
@@ -462,6 +463,9 @@ void buscarTipo(HashMap* MapTipo){
     }
 }
 
+//Función que busca todos los productos de una cierta marca ingresada por el usuario
+//cuando el usuario ingresa una marca, se abre el mapa exclusivo de esa marca (en caso de existir)
+//y muestra todos los productos que se encuentran en este
 void buscarMarca(HashMap *MapMarca) {
     HashMap *productos;
     Pair *objeto;
@@ -516,6 +520,7 @@ void buscarMarca(HashMap *MapMarca) {
     system("pause");
 }
 
+//Función que busca todos los productos en el mapa nombre y los muestra por pantalla
 void buscarNombre(HashMap *MapNombre) {
     Pair *producto;
     char accion[1];
@@ -706,8 +711,10 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     system("pause");
 }
 
+//Función que elimina el ultimo producto ingresado del carrito que indicó el usuario
+//luego de eliminarlo del carrito le devuelve la misma cantidad al stock del producto original
+//si ya no existia lo volvia a ingresar al mapa
 void eliminarProductoCarrito(Stock* almacen, HashMap* MapCarritos){
-    
     if( MapCarritos->size == 0 ){
         system("cls");
         printf("\n======================= ELIMINAR PRODUCTO DEL CARRITO ========================\n");
@@ -761,6 +768,8 @@ void eliminarProductoCarrito(Stock* almacen, HashMap* MapCarritos){
     system("pause");
 }
 
+//Función que recorre los productos del carrito por orden de ingreso y calcula el total a pagar por el usuario
+//dependiendo del precio y cantidad de productos
 void comprarCarrito( HashMap* MapCarritos ){
     system("cls");
     if( MapCarritos->size == 0 ){
@@ -848,7 +857,7 @@ void mostrarCarritos(HashMap* carritosDeCompra){
 }
 
 
-
+//Función principal donde se desplegará el menú de la tienda
 int main() {
     system("color 0d");
     Stock *almacen = createStock();
