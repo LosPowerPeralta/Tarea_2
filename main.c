@@ -613,29 +613,6 @@ void mostrarProductos(Stock* almacen)
    Funcion tipo void no retorna nada. 
 */ 
 
-/*
-Mostrar todos los productos ():​ La aplicación muestra por pantalla 
-todos los productos existentes (y su respectiva información).
-*/
-void mostrarTodoslosProductos(Stock * almacen){
-    system("cls");
-    Pair * aux = firstMap(almacen->nombre);
-    printf("=============Productos Disponibles=============\n\n");
-    while (aux != NULL){
-        printf("Producto: %s\n", (((Producto *)(Pair *)aux->value)->nombre));
-        printf(" -Stock Disponible: %zd\n", (((Producto *)(Pair *)aux->value)->stock));
-        printf(" -Valor: %zd\n", (((Producto *)(Pair *)aux->value)->valor));
-        printf(" -Tipo: %s\n", (((Producto *)(Pair *)aux->value)->tipo));
-        printf(" -Marca: %s\n", (((Producto *)(Pair *)aux->value)->marca));
-        printf("\n");
-
-        aux = nextMap(almacen->nombre);
-    }
-    printf("\n");
-    printf("================FIN DE LA LECTURA================");
-
-    getch();
-}
 
 /*
 Mostrar carritos de compra: Se muestran los nombres de los carritos 
