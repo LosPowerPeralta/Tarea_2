@@ -824,7 +824,7 @@ void mostrarCarritos(HashMap* carritosDeCompra){
     Pair * aux = firstMap(carritosDeCompra);
     if (aux == NULL){
         printf("\n======================== MOSTRANDO TODOS LOS CARRITOS ========================\n");
-        printf("\n                     NO HAY CARRITOS VÁLIDOS PARA MOSTRAR\n");
+        printf("\n                     NO HAY CARRITOS VALIDOS PARA MOSTRAR\n");
         printf("\n============================== VOLVIENDO AL MENU ==============================\n");
     }
     else 
@@ -833,7 +833,7 @@ void mostrarCarritos(HashMap* carritosDeCompra){
         printf("|                        Nombre                           |                        Cantidad de Productos                      |\n");
         printf("|=========================================================|===================================================================|\n");
         while (aux != NULL){
-            printf("%54s |",((Carrito*)aux->value)->nombre);
+            printf("   %54s |",((Carrito*)aux->value)->nombre);
             printf(" %65zd |\n", ((Carrito*)aux->value)->cantTotalProductos);
             printf("\n");
             aux = nextMap(carritosDeCompra);
