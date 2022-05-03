@@ -814,6 +814,41 @@ void comprarCarrito( HashMap* MapCarritos ){
     }
 }
 
+/*
+Mostrar carritos de compra: Se muestran los nombres de los carritos 
+de compra creados y la cantidad de productos que tiene cada uno de ellos. 
+*/
+
+void mostrarCarritosDeCompra(HashMap* carritosDeCompra){
+    system("cls");
+    size_t i=1;
+    Pair * aux = firstMap(carritosDeCompra->buckets);
+    if (aux == NULL){
+        printf("\n======================== MOSTRANDO TODOS LOS CARRITOS ========================\n");
+        printf("\n                     NO HAY CARRITOS VÁLIDOS PARA MOSTRAR\n");
+        printf("\n============================== VOLVIENDO AL MENU ==============================\n");
+    }
+    else 
+    {
+        printf("|================================================== Carritos de Compra =======================================================|\n");
+        printf("|                        Nombre                           |                        Cantidad de Productos                      |\n");
+        printf("|=========================================================|===================================================================|\n");
+        "========================================================="
+        while (aux != NULL){
+            printf("%58s |",((Carrito*)aux->value)->nombre);
+            printf(" %58zd |\n", ((Carrito*)aux->value)->cantProductos);
+            printf("\n");
+            aux = nextMap(carritosDeCompra->buckets);
+            i++;
+    }
+
+    printf("======================================================= [FIN DE LA LECTURA] =======================================================");
+    }
+
+    system("pause");
+}
+
+
 int main() {
     system("color 0d");
     Stock *almacen = createStock();
