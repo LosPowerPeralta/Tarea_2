@@ -750,7 +750,7 @@ void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
     system("pause");
 }
 int main() {
-    //system("color 7c"); Sugerencia cambio de color
+    system("color 0d"); 
     Stock *almacen = createStock();
     char opcion[2];
     int auxOpcion;
