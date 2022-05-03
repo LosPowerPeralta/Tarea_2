@@ -818,10 +818,10 @@ void comprarCarrito( HashMap* MapCarritos ){
 Mostrar carritos de compra: Se muestran los nombres de los carritos 
 de compra creados y la cantidad de productos que tiene cada uno de ellos. 
 */
-void mostrarCarritosDeCompra(HashMap* carritosDeCompra){
+void mostrarCarritos(HashMap* carritosDeCompra){
     system("cls");
     size_t i=1;
-    Pair * aux = firstMap(carritosDeCompra->buckets);
+    Pair * aux = firstMap(carritosDeCompra);
     if (aux == NULL){
         printf("\n======================== MOSTRANDO TODOS LOS CARRITOS ========================\n");
         printf("\n                     NO HAY CARRITOS VÁLIDOS PARA MOSTRAR\n");
@@ -836,12 +836,12 @@ void mostrarCarritosDeCompra(HashMap* carritosDeCompra){
             printf("%58s |",((Carrito*)aux->value)->nombre);
             printf(" %58zd |\n", ((Carrito*)aux->value)->cantProductos);
             printf("\n");
-            aux = nextMap(carritosDeCompra->buckets);
+            aux = nextMap(carritosDeCompra);
             i++;
         printf("|=========================================================|===================================================================|\n");
-    }
+        }
 
-    printf("======================================================= [FIN DE LA LECTURA] =======================================================");
+    printf("======================================================= [FIN DE LA LECTURA] =======================================================\n");
     }
 
     system("pause");
