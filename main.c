@@ -833,8 +833,8 @@ void mostrarCarritos(HashMap* carritosDeCompra){
         printf("|                        Nombre                           |                        Cantidad de Productos                      |\n");
         printf("|=========================================================|===================================================================|\n");
         while (aux != NULL){
-            printf("%58s |",((Carrito*)aux->value)->nombre);
-            printf(" %58zd |\n", ((Carrito*)aux->value)->cantProductos);
+            printf("%54s |",((Carrito*)aux->value)->nombre);
+            printf(" %65zd |\n", ((Carrito*)aux->value)->cantTotalProductos);
             printf("\n");
             aux = nextMap(carritosDeCompra);
             i++;
