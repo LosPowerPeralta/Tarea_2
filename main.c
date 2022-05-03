@@ -614,29 +614,6 @@ void mostrarProductos(Stock* almacen)
 */ 
 
 
-/*
-Mostrar carritos de compra: Se muestran los nombres de los carritos 
-de compra creados y la cantidad de productos que tiene cada uno de ellos. 
-*/
-void mostrarCarritosDeCompra(Carritos* carritosDeCompra){
-    system("cls");
-    size_t i=1;
-    Pair * aux = firstMap(carritosDeCompra->arrCarritos);
-    printf("=============[Carritos de Compra]=============\n\n");
-    while (aux != NULL){
-        printf("%u.- %s\n", i, ((Carrito*)aux->value)->nombre);
-        printf(" -Cantidad Disponible = %zd\n", ((Carrito*)aux->value)->cantProductos);
-        printf("\n");
-        aux = nextMap(carritosDeCompra->arrCarritos);
-        i++;
-    }
-
-    printf("==============[FIN DE LA LECTURA]==============");
-
-    getch();
-}
-
-
 void agregarProductoCarrito(Stock* almacen, HashMap* MapCarritos)
 {
      system("cls");
@@ -768,6 +745,29 @@ void eliminarProductoCarrito(Stock *almacen, HashMap *carritosDeCompras) {
     printf("\n==================================== VOLVIENDO AL MENU ======================================\n");
     system("pause");
 
+}
+
+
+/*
+Mostrar carritos de compra: Se muestran los nombres de los carritos 
+de compra creados y la cantidad de productos que tiene cada uno de ellos. 
+*/
+void mostrarCarritosDeCompra(Carritos* carritosDeCompra){
+    system("cls");
+    size_t i=1;
+    Pair * aux = firstMap(carritosDeCompra->arrCarritos);
+    printf("=============[Carritos de Compra]=============\n\n");
+    while (aux != NULL){
+        printf("%u.- %s\n", i, ((Carrito*)aux->value)->nombre);
+        printf(" -Cantidad Disponible = %zd\n", ((Carrito*)aux->value)->cantProductos);
+        printf("\n");
+        aux = nextMap(carritosDeCompra->arrCarritos);
+        i++;
+    }
+
+    printf("==============[FIN DE LA LECTURA]==============");
+
+    getch();
 }
 
 int main() {
